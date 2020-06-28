@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+const ReactMarkdown = require('react-markdown')
 
 class CourseDetail extends Component {
 	state = {
-		course : {}
+    loading: true,
+    course : {}
 	};
 
 	componentDidMount() {
@@ -12,11 +13,12 @@ class CourseDetail extends Component {
 
 	fetchItems = async () => {
 		try {
+      // get course information from db
 			const data = await fetch(`http://localhost:5000/api/courses/${this.props.match.params.id}`);
       const course = await data.json();
 
       // update state
-      this.setState({ course });
+      this.setState({ loading: false, course });
 
       // set page title
       document.title = this.state.course.title
@@ -26,22 +28,23 @@ class CourseDetail extends Component {
 	};
 
 	render() {
-
-    const course = this.state.course;
-    const user = course.user;
-    console.log("type of: ", typeof user, "user: ", user); // this works
-    // console.log(user.id) // this doesn't
-		return (
-			<>
-        {/* course action buttons will go here */}
-				<h2>Course</h2>
-        <h1>{course.title}</h1>
-        {/* <p>{user.firstName}</p> */}
-        <pre>{course.description}</pre>
-				
-				
-			</>
-		);
+    if (this.state.loading) {
+      return <p>loading...</p>
+    } else {
+      const { course } = this.state;
+      const { user } = course;
+      
+      return (
+        <>
+          {/* course action buttons will go here */}
+          <h2>Course</h2>
+          <h1>{course.title}</h1>
+          <p>by {user.firstName} {user.lastName}</p>
+          <ReactMarkdown source={course.description} />
+          <ReactMarkdown source={course.materialsNeeded} />
+        </>
+      );
+    }
 	}
 }
 
