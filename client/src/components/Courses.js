@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-class Test extends Component {
+class Courses extends Component {
 	state = {
 		courses : []
 	};
@@ -23,12 +23,27 @@ class Test extends Component {
 
 	render() {
 		return (
-			<div>
-				<h1>Testing my api</h1>
-				<ul>{this.state.courses.map(item => <li key={item.id}>{item.title}</li>)}</ul>
-			</div>
+			<>
+				<h1>Courses</h1>
+				{this.state.courses.map(course => {
+						return (
+							<article key={course.id}>
+								<Link to={`/courses/${course.id}`}>
+									<p>Course</p>
+									<h2>{course.title}</h2>
+								</Link>
+							</article>
+						);
+					}
+				)}
+				<button id="new-course">
+					<Link to="/courses/create">
+						New Course
+					</Link>
+				</button>
+			</>
 		);
 	}
 }
 
-export default Test;
+export default Courses;
