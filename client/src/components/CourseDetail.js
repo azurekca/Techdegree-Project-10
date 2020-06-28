@@ -8,14 +8,18 @@ class CourseDetail extends Component {
 
 	componentDidMount() {
     this.fetchItems();
-    // document.title = this.course.title
 	}
 
 	fetchItems = async () => {
 		try {
 			const data = await fetch(`http://localhost:5000/api/courses/${this.props.match.params.id}`);
-			const course = await data.json();
-			this.setState({ course });
+      const course = await data.json();
+
+      // update state
+      this.setState({ course });
+
+      // set page title
+      document.title = this.state.course.title
 		} catch (error) {
 			console.log(error);
 		}
