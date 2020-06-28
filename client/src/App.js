@@ -1,13 +1,22 @@
 import React from 'react';
 import {
   BrowserRouter,
-  Route
+  Route,
+  Switch
 } from 'react-router-dom';
 
-import Test from './components/Courses'
+import Header from './components/Header';
+import Courses from './components/Courses';
+import CourseDetail from './components/CourseDetail';
 
 export default () => (
   <BrowserRouter>
-    <Route path="/" component={Test} />
+    <Header />
+    <main>
+      <Switch>
+        <Route exact path="/" component={Courses} />
+        <Route path="/courses/:id" component={CourseDetail} />
+      </Switch>
+    </main>
   </BrowserRouter>
 );
