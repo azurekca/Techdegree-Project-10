@@ -109,8 +109,5 @@ dist
 # VS Code settings
 .vscode
 
-# DB Seed
-seed/
-
 # Treehouse reference files
 Treehouse/
