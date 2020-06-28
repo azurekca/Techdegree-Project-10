@@ -111,3 +111,6 @@ dist
 
 # DB Seed
 seed/
+
+# Treehouse reference files
+Treehouse/
