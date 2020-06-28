@@ -8,11 +8,11 @@ const { handleSequelizeValidationErrors: seqErrors } = require('../helpers');
 router.get('/', asyncHandler(async (req, res) => {
   const courses = await Course.findAll({
     attributes: {exclude: ['createdAt', 'updatedAt']},
-    include: [{
+    include: {
       model: User,
       as: 'user',
       attributes: ['id', 'firstName', 'lastName', 'emailAddress']
-    }]
+    }
   });
   res.json(courses);
 }));
