@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import CourseForm from './CourseForm';
 
-export default class UserSignUp extends Component {
+export default class CreateCourse extends Component {
   state = {
     title: '',
     description: '',
@@ -28,9 +28,10 @@ export default class UserSignUp extends Component {
             cancel={this.cancel}
             errors={errors}
             submit={this.submit}
-            submitButtonText="Sign Up"
+            submitButtonText="Create"
             elements={() => (
-              <React.Fragment>
+              <>
+                <label htmlFor="title">Title</label>
                 <input 
                   id="title" 
                   name="title" 
@@ -39,31 +40,32 @@ export default class UserSignUp extends Component {
                   onChange={this.change} 
                   placeholder="Course title"
                   autoComplete="" />
-                <input 
+                <label htmlFor="description">Description</label>
+                <textarea 
                   id="description" 
                   name="description" 
-                  type="textarea"
                   value={description} 
                   onChange={this.change} 
                   placeholder="Course description..."
                   autoComplete="" />
+                <label htmlFor="estimatedTime">Estimated Time</label>
                 <input 
                   id="estimatedTime" 
                   name="estimatedTime" 
                   type="text"
                   value={estimatedTime} 
                   onChange={this.change} 
-                  placeholder="Estimated Time"
+                  placeholder="Estimated time"
                   autoComplete="" />
-                <input 
+                <label htmlFor="materialsNeeded">Materials Needed</label>
+                <textarea 
                   id="materialsNeeded" 
                   name="materialsNeeded"
-                  type="textarea"
                   value={materialsNeeded} 
                   onChange={this.change} 
                   placeholder="Materials needed..."
                   autoComplete="" />
-              </React.Fragment>
+              </>
             )} />
           
         </div>

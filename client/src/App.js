@@ -18,6 +18,8 @@ import PrivateRoute from './PrivateRoute';
 // import withContext and configure components to use it
 import withContext from './Context';
 const HeaderWithContext = withContext(Header);
+const CoursesWithContext = withContext(Courses);
+const CourseDetailWithContext = withContext(CourseDetail);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
@@ -29,9 +31,9 @@ export default () => (
     <HeaderWithContext />
     <main>
       <Switch>
-        <Route exact path="/" component={Courses} />
+        <Route exact path="/" component={CoursesWithContext} />
         <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
-        <Route path="/courses/:id" component={CourseDetail} />
+        <Route path="/courses/:id" component={CourseDetailWithContext} />
         <Route path="/signup" component={UserSignUpWithContext} />
         <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signout" component={UserSignOutWithContext} />

@@ -1,6 +1,6 @@
 import config from './config';
 
-// 
+// methods for fetching data from REST API
 export default class Data {
   api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
     const url = config.apiBaseUrl + path;
@@ -25,6 +25,7 @@ export default class Data {
     return fetch(url, options);
   }
 
+  /*** USER DATA ***/
   async getUser(username, password) {
     const response = await this.api('/users', 'GET', null, true, { username, password });
     if (response.status === 200) {
@@ -50,6 +51,37 @@ export default class Data {
     }
     else {
       throw new Error(`error in Data.js: createUser ${user}`);
+    }
+  }
+  
+  /*** COURSE DATA ***/
+  getCourses = async () => {
+    const response = await this.api('/courses');
+    if (response.status === 200) {
+      return response.json().then(data => data);
+    }
+    else if (response.status === 500) {
+      return null;
+    }
+    else {
+      throw new Error();
+    }
+  }
+
+  /*** COURSE DATA ***/
+  getCourse = async (id) => {
+    const response = await this.api('/courses/' + id);
+    if (response.status === 200) {
+      return response.json().then(data => data);
+    }
+    else if (response.status === 404) {
+      return 404;
+    }
+    else if (response.status === 500) {
+      return null;
+    }
+    else {
+      throw new Error();
     }
   }
 }

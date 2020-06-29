@@ -7,14 +7,22 @@ class Courses extends Component {
 	};
 
 	componentDidMount() {
-		this.fetchItems();
+		this.fetchCourses();
 	}
 
-	fetchItems = async () => {
+	fetchCourses = async () => {
+
+		// this gives access to the Data methods for talking to the api defined in Data.js and the actions defined in Context.js
+		const { context } = this.props;
+		
 		try {
-			const data = await fetch('http://localhost:5000/api/courses');
-			const courses = await data.json();
-			this.setState({ courses });
+			// get all the courses from the database
+			const courses = await context.actions.getCourses();
+			if (courses) {
+				this.setState({ courses });
+			} else {
+				// 500
+			}
 		} catch (error) {
 			console.log(error);
 		}

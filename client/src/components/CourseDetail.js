@@ -8,20 +8,25 @@ class CourseDetail extends Component {
 	};
 
 	componentDidMount() {
-    this.fetchItems();
+    this.fetchCourse();
 	}
 
-	fetchItems = async () => {
+	fetchCourse = async () => {
+    // this gives access to the Data methods for talking to the api defined in Data.js and the actions defined in Context.js
+    const { context } = this.props;
+    
 		try {
       // get course information from db
-			const data = await fetch(`http://localhost:5000/api/courses/${this.props.match.params.id}`);
-      const course = await data.json();
+			const course = await context.actions.getCourse(this.props.match.params.id);
+      if (course) {
+        // update state
+        this.setState({ loading: false, course });
 
-      // update state
-      this.setState({ loading: false, course });
-
-      // set page title
+        // set page title
       document.title = this.state.course.title
+      } else{
+        // 500
+      }
 		} catch (error) {
 			console.log(error);
 		}
@@ -30,6 +35,8 @@ class CourseDetail extends Component {
 	render() {
     if (this.state.loading) {
       return <p>loading...</p>
+    } else if (this.state.course === 404) {
+      return <p>Course not found</p>
     } else {
       const { course } = this.state;
       const { user } = course;
