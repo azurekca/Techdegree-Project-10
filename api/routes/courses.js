@@ -57,8 +57,10 @@ router.post('/', authenticateUser, asyncHandler( async (req, res, next) => {
 router.put('/:id', authenticateUser, asyncHandler (async (req, res, next) => {
   const user = req.currentUser;
   let course = await Course.findByPk(req.params.id, {
-    model: User,
-    as: 'user',
+    include: {
+      model: User,
+      as: 'user'
+    }
   });
 
   if (course) {
@@ -94,7 +96,10 @@ router.put('/:id', authenticateUser, asyncHandler (async (req, res, next) => {
 router.delete('/:id', authenticateUser, asyncHandler( async (req, res) => {
   const user = req.currentUser;
   let course = await Course.findByPk(req.params.id, {
-    include: User
+    include: {
+      model: User,
+      as: 'user'
+    }
   });
   if (course) {
     if (course.userId === user.id) {
