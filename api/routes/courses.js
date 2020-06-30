@@ -42,11 +42,11 @@ router.get('/:id', asyncHandler(async (req, res) => {
 router.post('/', authenticateUser, asyncHandler( async (req, res, next) => {
   try {
     const course = await Course.create(req.body);
-    res.location('/api/courses/' + course.id)
+    res.location('/courses/' + course.id);
     res.status(201).end();
   } catch (error) {
     if (error.name === 'SequelizeValidationError') {
-      res.status(400).json({ error: seqErrors(error) });
+      res.status(400).json({ errors: seqErrors(error) });
     } else {
       next(error);
     }
@@ -75,7 +75,7 @@ router.put('/:id', authenticateUser, asyncHandler (async (req, res, next) => {
         }
       } catch (error) {
         if (error.name === 'SequelizeValidationError') {
-          res.status(400).json({ error: seqErrors(error) });
+          res.status(400).json({ errors: seqErrors(error) });
         } else {
           next(error);
         }
