@@ -57,7 +57,8 @@ router.post('/', authenticateUser, asyncHandler( async (req, res, next) => {
 router.put('/:id', authenticateUser, asyncHandler (async (req, res, next) => {
   const user = req.currentUser;
   let course = await Course.findByPk(req.params.id, {
-    include: User
+    model: User,
+    as: 'user',
   });
 
   if (course) {
