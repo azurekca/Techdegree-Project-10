@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
-import withContext from '../Context';
-import UpdateCourse from './UpdateCourse';
+import { Link } from 'react-router-dom';
 
 const ReactMarkdown = require('react-markdown');
-const UpdateCourseWithContext = withContext(UpdateCourse);
 
 class CourseDetail extends Component {
 	state = {
     loading: true,
-    editing: false,
     course : {}
 	};
 
@@ -37,10 +33,6 @@ class CourseDetail extends Component {
 			console.log(error);
 		}
   };
-  
-  handleEditing = () => {
-    this.setState( prevState => ({ editing: !prevState.editing}) );
-  }
 
 	render() {
     // check if data has been retrieved yet,
@@ -53,35 +45,19 @@ class CourseDetail extends Component {
       const { course } = this.state;
       const { user } = course;
 
-      if (!this.state.editing) {
-        return (
-          <>
-            {/* course action buttons will go here */}
-            <button  className="course-action">
-              <Link to={`/courses/${course.id}/update`} onClick={this.handleEditing}>
-                Update Course
-              </Link>
-            </button>
-            <h2>Course</h2>
-            <h1>{course.title}</h1>
-            <p>by {user.firstName} {user.lastName}</p>
-            <ReactMarkdown source={course.description} />
-            <ReactMarkdown source={course.materialsNeeded} />
-          </>
-        );
-      } else {
-        return (
-          <>
-            <Route 
-              path={`/courses/${course.id}/update`} 
-              render={() => <UpdateCourseWithContext
-                course={course}
-                cancelUpdate={this.handleEditing}
-              />}
-            />
-          </>
-        );
-      }
+      return (
+        <>
+          {/* course action buttons will go here */}
+          <button  className="course-action">
+            <Link to={`/courses/${course.id}/update`}>Update Course</Link>
+          </button>
+          <h2>Course</h2>
+          <h1>{course.title}</h1>
+          <p>by {user.firstName} {user.lastName}</p>
+          <ReactMarkdown source={course.description} />
+          <ReactMarkdown source={course.materialsNeeded} />
+        </>
+      );
     }
 	}
 }

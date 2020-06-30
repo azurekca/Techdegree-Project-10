@@ -9,6 +9,7 @@ import Header from './components/Header';
 import Courses from './components/Courses';
 import CourseDetail from './components/CourseDetail';
 import CreateCourse from './components/CreateCourse';
+import UpdateCourse from './components/UpdateCourse';
 import UserSignUp from './components/UserSignUp';
 import UserSignIn from './components/UserSignIn';
 import UserSignOut from './components/UserSignOut';
@@ -24,6 +25,7 @@ const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
 const CreateCourseWithContext = withContext(CreateCourse);
+const UpdateCourseWithContext = withContext(UpdateCourse);
 
 export default () => (
   <BrowserRouter>
@@ -35,7 +37,9 @@ export default () => (
         <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signout" component={UserSignOutWithContext} />
         <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
-        <Route path="/courses/:id" component={CourseDetailWithContext} />
+        <Route exact path="/courses/:id" component={CourseDetailWithContext} />
+        {/* will be a private route with additional check for ownership */}
+        <Route path={`/courses/:id/update`} component={UpdateCourseWithContext} />
       </Switch>
     </main>
   </BrowserRouter>

@@ -2,86 +2,103 @@ import React, { Component } from 'react';
 import CourseForm from './CourseForm';
 
 export default class UpdateCourse extends Component {
-  // state = {
-  //   title: '',
-  //   description: '',
-  //   estimatedTime: '',
-  //   materialsNeeded: '',
-  //   userId: '',
-  //   errors: [],
-  // }
+  state = {
+    loading: true,
+    course: {},
+    errors: [],
+  }
 
-  // componentDidMount() {
-  //   this.setState({
-  //     title: this.props.course.title,
-  //     description: this.props.course.description,
-  //     estimatedTime: this.props.course.estimatedTime,
-  //     materialsNeeded: this.props.course.materialsNeeded,
-  //     userId: this.props.course.userId
-  //   })
-  // }
+	componentDidMount() {
+    this.fetchCourse();
+	}
+
+	fetchCourse = async () => {
+    // this gives access to the Data methods for talking to the api defined in Data.js and the actions defined in Context.js
+    const { context } = this.props;
+    
+		try {
+      // get course information from db
+			const course = await context.actions.getCourse(this.props.match.params.id);
+      if (course) {
+        // update state
+        this.setState({ loading: false, course });
+
+        // set page title
+      document.title = this.state.course.title
+      } else{
+        // 500
+      }
+		} catch (error) {
+			console.log(error);
+		}
+  };
 
   render() {
-    const {
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded,
-      userId,
-      errors,
-    } = this.props;
+    if (this.state.loading) {
+      return <p>loading...</p>
+    } else if (this.state.course === 404) {
+      return <p>Course not found</p>
+    } else {
 
-    return (
-      <div className="bounds">
-        <div className="grid-33 centered">
-          <h1>Update Course</h1>
-          <CourseForm 
-            cancel={this.cancel}
-            errors={errors}
-            submit={this.submit}
-            submitButtonText="Update"
-            elements={() => (
-              <>
-                <label htmlFor="title">Title</label>
-                <input 
-                  id="title" 
-                  name="title" 
-                  type="text"
-                  value={title} 
-                  onChange={this.change} 
-                  placeholder="Course title"
-                  autoComplete="" />
-                <label htmlFor="description">Description</label>
-                <textarea 
-                  id="description" 
-                  name="description" 
-                  value={description} 
-                  onChange={this.change} 
-                  placeholder="Course description..."
-                  autoComplete="" />
-                <label htmlFor="estimatedTime">Estimated Time</label>
-                <input 
-                  id="estimatedTime" 
-                  name="estimatedTime" 
-                  type="text"
-                  value={estimatedTime} 
-                  onChange={this.change} 
-                  placeholder="Estimated time"
-                  autoComplete="" />
-                <label htmlFor="materialsNeeded">Materials Needed</label>
-                <textarea 
-                  id="materialsNeeded" 
-                  name="materialsNeeded"
-                  value={materialsNeeded} 
-                  onChange={this.change} 
-                  placeholder="Materials needed..."
-                  autoComplete="" />
-              </>
-            )} />
-          
+      const {
+        title,
+        description,
+        estimatedTime,
+        materialsNeeded,
+        userId
+      } = this.state.course;
+
+      return (
+        <div className="bounds">
+          <div className="grid-33 centered">
+            <h1>Update Course</h1>
+            <CourseForm 
+              cancel={this.cancel}
+              errors={this.state.errors}
+              submit={this.submit}
+              submitButtonText="Update"
+              elements={() => (
+                <>
+                  <label htmlFor="title">Title</label>
+                  <input 
+                    id="title" 
+                    name="title" 
+                    type="text"
+                    value={title} 
+                    onChange={this.change} 
+                    placeholder="Course title"
+                    autoComplete="" />
+                  <label htmlFor="description">Description</label>
+                  <textarea 
+                    id="description" 
+                    name="description" 
+                    value={description} 
+                    onChange={this.change} 
+                    placeholder="Course description..."
+                    autoComplete="" />
+                  <label htmlFor="estimatedTime">Estimated Time</label>
+                  <input 
+                    id="estimatedTime" 
+                    name="estimatedTime" 
+                    type="text"
+                    value={estimatedTime} 
+                    onChange={this.change} 
+                    placeholder="Estimated time"
+                    autoComplete="" />
+                  <label htmlFor="materialsNeeded">Materials Needed</label>
+                  <textarea 
+                    id="materialsNeeded" 
+                    name="materialsNeeded"
+                    value={materialsNeeded} 
+                    onChange={this.change} 
+                    placeholder="Materials needed..."
+                    autoComplete="" />
+                </>
+              )} />
+          </div>
         </div>
-      </div>
-    );
+      );
+    }     
   }
 
   change = (event) => {
@@ -129,12 +146,6 @@ export default class UpdateCourse extends Component {
   }
 
   cancel = () => {
-    // set editing to false
-    console.log(this.props.value.match.params.id)
-    this.props.cancelUpdate();
-    this.props.value.location.goBack();
-    // this.props.history.push({
-    //   pathname: `/course/${this.props.value.match.params.id}`,
-    //   state: { editing: false }});
+    this.props.history.goBack();
   }
 }
