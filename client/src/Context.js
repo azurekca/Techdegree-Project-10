@@ -25,7 +25,8 @@ export class Provider extends Component {
         signIn: this.signIn,
         signOut: this.signOut,
         getCourses: this.data.getCourses,
-        getCourse: this.data.getCourse
+        getCourse: this.data.getCourse,
+        createCourse: this.data.postCourse
       }
     }
 
@@ -38,8 +39,9 @@ export class Provider extends Component {
 
   
   signIn = async (username, password) => {
-    const user = await this.data.getUser(username, password);
+    let user = await this.data.getUser(username, password);
     if (user) {
+      user = {...user, password }
       this.setState({ authenticatedUser: user });
       console.log(`${user.firstName} is logged in!`)
       // set cookie
