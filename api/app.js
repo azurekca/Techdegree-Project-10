@@ -15,9 +15,8 @@ const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'tr
 const app = express();
 
 // Enable all CORS requests on all routes
-// and that's it, that's all that needs to happen because of the cors package
-// can pass in options if more security is required
-app.use(cors());
+// pass in options: in this case need to expose location header for redirect after course is created
+app.use(cors({ exposedHeaders: 'location'}));
 
 // Setup request body JSON parsing.
 app.use(express.json());
