@@ -85,8 +85,9 @@ export default class CreateCourse extends Component {
   }
 
   submit = () => {
-    // this gets the signed in user
-    const { authenticatedUser: user } = this.props.context;
+    // this gets the signed in user and the data methods
+    const { context } = this.props;
+    const user = context.authenticatedUser
 
     // this is the info for the new course
     const {
@@ -95,25 +96,25 @@ export default class CreateCourse extends Component {
       estimatedTime,
       materialsNeeded
     } = this.state;
-// todo userId
+
     // create a new course object
     const course = { title, description, estimatedTime, materialsNeeded, userId: user.id };
-    console.log(course);
-
-    // context.data.createCourse(course)
-    //   .then(errors => {
-    //     if (errors.length > 0) {
-    //       this.setState({ errors })
-    //     } else {
-    //       console.log(course)
-    //       
-    //     }
-    //   })
-    //   // handle rejected promise: issue with endpoint, api down, network connectivity error
-    //   .catch( err => {
-    //     console.log(err);
-    //     this.props.history.push('/error'); // push to history stack will redirect to error page
-    //   });
+    console.log('trying to create course: ', course)
+    context.actions.createCourse(user.emailAddress, user.password, course)
+      .then(data => {
+        console.log(data)
+        if (data.errors) {
+          this.setState({ errors: data.errors })
+        } else {
+          // course created successfully
+          this.props.history.push(data.location) // todo get new course from location header and redirect to new course
+        }
+      })
+      // handle rejected promise: issue with endpoint, api down, network connectivity error
+      .catch( err => {
+        console.log(err);
+        this.props.history.push('/error'); // push to history stack will redirect to error page
+      });
 
   }
 
