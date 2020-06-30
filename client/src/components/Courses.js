@@ -43,7 +43,7 @@ class Courses extends Component {
 						);
 					}
 				)}
-				<button id="new-course">
+				<button className="course-action">
 					<Link to="/courses/create">
 						New Course
 					</Link>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import CourseForm from './CourseForm';
 
 export default class CreateCourse extends Component {
@@ -97,17 +96,17 @@ export default class CreateCourse extends Component {
       materialsNeeded
     } = this.state;
 
-    // create a new course object
+    // create a new course with current user id
     const course = { title, description, estimatedTime, materialsNeeded, userId: user.id };
-    console.log('trying to create course: ', course)
     context.actions.createCourse(user.emailAddress, user.password, course)
       .then(data => {
         console.log(data)
         if (data.errors) {
+          // validation errors
           this.setState({ errors: data.errors })
         } else {
-          // course created successfully
-          this.props.history.push(data.location) // todo get new course from location header and redirect to new course
+          // course created successfully, go to newly created course page
+          this.props.history.push(data.location)
         }
       })
       // handle rejected promise: issue with endpoint, api down, network connectivity error
@@ -115,7 +114,6 @@ export default class CreateCourse extends Component {
         console.log(err);
         this.props.history.push('/error'); // push to history stack will redirect to error page
       });
-
   }
 
   cancel = () => {
