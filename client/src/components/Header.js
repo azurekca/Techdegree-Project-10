@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Header({context}) {
-  const authUser = context.authenticatedUser;
+  const user = context.authenticatedUser;
 
   return (
     <header>
@@ -13,9 +13,9 @@ function Header({context}) {
             <path d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z" />
           </svg> School
         </Link>
-        {authUser ?
+        {user ?
           <>
-            <span>Welcome, {authUser.firstName} {authUser.lastName}</span>
+            <span>Welcome, {user.firstName} {user.lastName}</span>
             <Link to="/signout">Sign Out</Link>
           </> :
           <>
