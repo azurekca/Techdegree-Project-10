@@ -24,7 +24,7 @@ router.post('/', asyncHandler(async(req, res, next) => {
   } catch (error) {
     if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
       // validation error
-      res.status(400).json({ error: seqErrors(error) });
+      res.status(400).json({ errors: seqErrors(error) });
     } else {
       // server error
      next(error);
