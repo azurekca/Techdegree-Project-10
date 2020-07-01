@@ -4,7 +4,12 @@ import CourseForm from './CourseForm';
 export default class UpdateCourse extends Component {
   state = {
     loading: true,
-    course: {},
+    id: '',
+    title: '',
+    description: '',
+    estimatedTime: '',
+    materialsNeeded: '',
+    userId: '',
     errors: [],
   }
 
@@ -21,7 +26,15 @@ export default class UpdateCourse extends Component {
 			const course = await context.actions.getCourse(this.props.match.params.id);
       if (course) {
         // update state
-        this.setState({ loading: false, course });
+        this.setState({ 
+          loading: false, 
+          id: course.id, 
+          title: course.title, 
+          description: course.description, 
+          estimatedTime: course.estimatedTime, 
+          materialsNeeded: course.materialsNeeded, 
+          userId: course.userId
+         });
 
         // set page title
       document.title = this.state.course.title
@@ -37,16 +50,16 @@ export default class UpdateCourse extends Component {
     if (this.state.loading) {
       return <p>loading...</p>
     } else if (this.state.course === 404) {
-      return <p>Course not found</p>
+      return <p>Course not found</p> // todo
+    } else if (this.state.userId !== this.props.context.authenticatedUser.id) {
+      return <p>You are not authorized</p> // todo
     } else {
-
       const {
         title,
         description,
         estimatedTime,
         materialsNeeded,
-        userId
-      } = this.state.course;
+      } = this.state;
 
       return (
         <div className="bounds">
@@ -107,7 +120,7 @@ export default class UpdateCourse extends Component {
 
     this.setState(() => {
       return {
-        [name]: value
+         [name]: value 
       };
     });
   }
@@ -117,25 +130,27 @@ export default class UpdateCourse extends Component {
     const { context } = this.props;
     const user = context.authenticatedUser
 
-    // this is the info for the new course
     const {
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded
-    } = this.state;
+        id,
+        title,
+        description,
+        estimatedTime,
+        materialsNeeded,
+        userId
+      } = this.state;
 
     // create a new course with current user id
-    const course = { title, description, estimatedTime, materialsNeeded, userId: user.id };
-    context.actions.createCourse(user.emailAddress, user.password, course)
+    const course = { id, title, description, estimatedTime, materialsNeeded, userId };
+
+    context.actions.updateCourse(user.emailAddress, user.password, course)
       .then(data => {
         console.log(data)
         if (data.errors) {
           // validation errors
           this.setState({ errors: data.errors })
         } else {
-          // course created successfully, go to newly created course page
-          this.props.history.push(data.location)
+          // course updated successfully, go to newly created course page
+          this.props.history.push(`/courses/${id}`);
         }
       })
       // handle rejected promise: issue with endpoint, api down, network connectivity error

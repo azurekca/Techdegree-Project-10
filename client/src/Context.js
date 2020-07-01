@@ -26,7 +26,9 @@ export class Provider extends Component {
         signOut: this.signOut,
         getCourses: this.data.getCourses,
         getCourse: this.data.getCourse,
-        createCourse: this.data.postCourse
+        createCourse: this.data.postCourse,
+        updateCourse: this.data.putCourse,
+        deleteCourse: this.data.deleteCourse
       }
     }
 
