@@ -82,8 +82,8 @@ export default class UserSignIn extends Component {
         }
       })
       // handle rejected promise: issue with endpoint, api down, network connectivity error
-      .catch( err => {
-        console.log(err);
+      .catch( error => {
+        console.log(error);
         this.props.history.push('/error'); // push to history stack will redirect to error page
       });
   }

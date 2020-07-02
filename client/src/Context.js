@@ -24,11 +24,6 @@ export class Provider extends Component {
       actions: {
         signIn: this.signIn,
         signOut: this.signOut,
-        getCourses: this.data.getCourses,
-        getCourse: this.data.getCourse,
-        createCourse: this.data.postCourse,
-        updateCourse: this.data.putCourse,
-        deleteCourse: this.data.deleteCourse
       }
     }
 
@@ -39,7 +34,6 @@ export class Provider extends Component {
     );
   }
 
-  
   signIn = async (username, password) => {
     let user = await this.data.getUser(username, password);
     if (user) {
@@ -62,7 +56,7 @@ export const Consumer = Context.Consumer;
 
 /**
  * A higher-order component that wraps the provided component in a Context Consumer component.
- * * Why? - so that each component doesn't need to be wrapped in <Context.Consumer> to have access to context
+ * * Why? - so that each component doesn't need to be wrapped in <Context.Consumer> to have access to context and history?
  * * Any component that wants to use context now uses withContext instead
  * @param {class} Component - A React component.
  * @returns {function} A higher-order component.

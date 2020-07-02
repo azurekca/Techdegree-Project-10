@@ -13,6 +13,9 @@ import UpdateCourse from './components/UpdateCourse';
 import UserSignUp from './components/UserSignUp';
 import UserSignIn from './components/UserSignIn';
 import UserSignOut from './components/UserSignOut';
+import NotFound from './components/errors/NotFound';
+import Forbidden from './components/errors/Forbidden';
+import UnhandledError from './components/errors/UnhandledError';
 
 import PrivateRoute from './PrivateRoute';
 
@@ -38,8 +41,11 @@ export default () => (
         <Route path="/signout" component={UserSignOutWithContext} />
         <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
         <Route exact path="/courses/:id" component={CourseDetailWithContext} />
-        {/* will be a private route with additional check for ownership */}
-        <Route path={`/courses/:id/update`} component={UpdateCourseWithContext} />
+        <PrivateRoute path={`/courses/:id/update`} component={UpdateCourseWithContext} />
+        <Route path="/notfound" component={NotFound} />
+        <Route path="/forbidden" component={Forbidden} />
+        <Route path="/error" component={UnhandledError} />
+        <Route component={NotFound} />
       </Switch>
     </main>
   </BrowserRouter>

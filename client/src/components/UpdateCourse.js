@@ -20,39 +20,47 @@ export default class UpdateCourse extends Component {
 	fetchCourse = async () => {
     // this gives access to the Data methods for talking to the api defined in Data.js and the actions defined in Context.js
     const { context } = this.props;
+    const requestedCourseId = this.props.match.params.id;
     
 		try {
       // get course information from db
-			const course = await context.actions.getCourse(this.props.match.params.id);
-      if (course) {
-        // update state
-        this.setState({ 
-          loading: false, 
-          id: course.id, 
-          title: course.title, 
-          description: course.description, 
-          estimatedTime: course.estimatedTime, 
-          materialsNeeded: course.materialsNeeded, 
-          userId: course.userId
-         });
-
-        // set page title
-      document.title = this.state.course.title
-      } else{
-        // 500
+      const course = await context.data.getCourse(requestedCourseId);
+      // check if course is owned by logged in user
+      if (course.userId !== this.props.context.authenticatedUser.id) {
+        this.props.history.push({
+          pathname: '/forbidden',
+          state: {error: `You are not authorized to edit course: ${course.title}`}
+        });
       }
-		} catch (error) {
-			console.log(error);
-		}
+      // update state
+      this.setState({ 
+        loading: false, 
+        id: course.id, 
+        title: course.title, 
+        description: course.description, 
+        estimatedTime: course.estimatedTime, 
+        materialsNeeded: course.materialsNeeded, 
+        userId: course.userId
+        });
+
+      // set page title
+      document.title = this.state.title
+    } catch (error) {
+      console.log(error);
+      if (error === 404) {
+        this.props.history.push({
+            pathname: '/notfound',
+            state: {error: `The requested course id=${requestedCourseId} was not found.`}
+          });
+      } else {
+        this.props.history.push('/error'); // push to history stack will redirect to error page
+      }
+    }
   };
 
   render() {
     if (this.state.loading) {
       return <p>loading...</p>
-    } else if (this.state.course === 404) {
-      return <p>Course not found</p> // todo
-    } else if (this.state.userId !== this.props.context.authenticatedUser.id) {
-      return <p>You are not authorized</p> // todo
     } else {
       const {
         title,
@@ -142,20 +150,20 @@ export default class UpdateCourse extends Component {
     // create a new course with current user id
     const course = { id, title, description, estimatedTime, materialsNeeded, userId };
 
-    context.actions.updateCourse(user.emailAddress, user.password, course)
+    context.data.updateCourse(user.emailAddress, user.password, course)
       .then(data => {
         console.log(data)
         if (data.errors) {
           // validation errors
           this.setState({ errors: data.errors })
         } else {
-          // course updated successfully, go to newly created course page
+          // course updated successfully, go to course detail page
           this.props.history.push(`/courses/${id}`);
         }
       })
-      // handle rejected promise: issue with endpoint, api down, network connectivity error
-      .catch( err => {
-        console.log(err);
+      // handle errors and rejected promise: issue with endpoint, api down, network connectivity error
+      .catch( error => {
+        console.log(error);
         this.props.history.push('/error'); // push to history stack will redirect to error page
       });
   }

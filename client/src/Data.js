@@ -35,28 +35,29 @@ export default class Data {
       // Success, no content
       case 204: return 'success';
       // Bad request
-      case 400: return response.json().then(data => data.errors );
+      case 400: return response.json().then(data => data );
       // Not authorized
-      case 401: return 401;
+      case 401: return null;
       // Forbidden
-      case 403: return 403;
+      case 403: throw new Error('403');
       // Not found
-      case 404: return 404;
+      case 404: throw new Error('404');
       // Server error
-      case 500: return 500;
+      case 500: throw new Error('500');
       default:
+        // Just in case, outlier for whatever hasn't been accounted for.
         throw new Error(errorMessage);
     }
-  }
+  }  
 
   /*** USER DATA ***/
-  async getUser(username, password) {
+  getUser = async (username, password) => {
     const response = await this.api('/users', 'GET', null, true, { username, password });
     // possible responses 200, 401, 500
     return this.readResponse(response, `error in getUser: ${username}`);
   }
   
-  async createUser(user) {
+  createUser = async (user) => {
     const response = await this.api('/users', 'POST', user);
     // possible responses 201, 400, 500
     return this.readResponse(response, `error in createUser: ${user}`);
@@ -75,20 +76,20 @@ export default class Data {
     return this.readResponse(response, `error in getCourse, id: ${id}`);
   }
 
-  postCourse = async (username, password, course) => {
+  createCourse = async (username, password, course) => {
     const response = await this.api('/courses/', 'POST', course, true, { username, password });
     // possible responses 201, 400, 401, 500
     return this.readResponse(response, `error in postCourse, data: ${course}`);
   }
 
-  putCourse = async (username, password, course) => {
+  updateCourse = async (username, password, course) => {
     const response = await this.api(`/courses/${course.id}`, 'PUT', course, true, { username, password });
     // possible responses 204, 400, 401, 403, 500
     return this.readResponse(response, `error in putCourse, data: ${course}`);
   }
 
-  deleteCourse = async (id) => {
-    const response = await this.api('/courses/' + id);
+  deleteCourse = async (username, password, id) => {
+    const response = await this.api(`/courses/${id}`, 'DELETE', null , true, { username, password });
     // possible responses 204, 401, 403, 500
     return this.readResponse(response, `error in getCourse, id: ${id}`);
   }
