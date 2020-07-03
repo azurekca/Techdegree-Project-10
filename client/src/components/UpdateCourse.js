@@ -14,6 +14,8 @@ export default class UpdateCourse extends Component {
   }
 
 	componentDidMount() {
+    // set page title
+    document.title = 'Courses | Update';
     this.fetchCourse();
 	}
 
@@ -43,8 +45,9 @@ export default class UpdateCourse extends Component {
         userId: course.userId
         });
 
-      // set page title
-      document.title = this.state.title
+        // set page title
+        document.title = `Courses | Update | ${this.state.title}`;
+
     } catch (error) {
       console.log(error);
       if (error === 404) {
@@ -73,49 +76,17 @@ export default class UpdateCourse extends Component {
         <div className="bounds">
           <div className="grid-33 centered">
             <h1>Update Course</h1>
-            <CourseForm 
+            <CourseForm
+              change={this.change}
               cancel={this.cancel}
               errors={this.state.errors}
               submit={this.submit}
               submitButtonText="Update"
-              elements={() => (
-                <>
-                  <label htmlFor="title">Title</label>
-                  <input 
-                    id="title" 
-                    name="title" 
-                    type="text"
-                    value={title} 
-                    onChange={this.change} 
-                    placeholder="Course title"
-                    autoComplete="" />
-                  <label htmlFor="description">Description</label>
-                  <textarea 
-                    id="description" 
-                    name="description" 
-                    value={description} 
-                    onChange={this.change} 
-                    placeholder="Course description..."
-                    autoComplete="" />
-                  <label htmlFor="estimatedTime">Estimated Time</label>
-                  <input 
-                    id="estimatedTime" 
-                    name="estimatedTime" 
-                    type="text"
-                    value={estimatedTime} 
-                    onChange={this.change} 
-                    placeholder="Estimated time"
-                    autoComplete="" />
-                  <label htmlFor="materialsNeeded">Materials Needed</label>
-                  <textarea 
-                    id="materialsNeeded" 
-                    name="materialsNeeded"
-                    value={materialsNeeded} 
-                    onChange={this.change} 
-                    placeholder="Materials needed..."
-                    autoComplete="" />
-                </>
-              )} />
+              title={title}
+              description={description}
+              estimatedTime={estimatedTime}
+              materialsNeeded={materialsNeeded}
+            />
           </div>
         </div>
       );
@@ -152,10 +123,11 @@ export default class UpdateCourse extends Component {
 
     context.data.updateCourse(user.emailAddress, user.password, course)
       .then(data => {
-        console.log(data)
+        console.log(data.errors)
         if (data.errors) {
           // validation errors
-          this.setState({ errors: data.errors })
+          const valErrors = context.actions.parseValidationErrors(data.errors);
+          this.setState({ errors: valErrors });
         } else {
           // course updated successfully, go to course detail page
           this.props.history.push(`/courses/${id}`);

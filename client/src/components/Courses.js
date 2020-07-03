@@ -8,6 +8,7 @@ class Courses extends Component {
 	};
 
 	componentDidMount() {
+		document.title = 'Courses'
 		this.fetchCourses();
 	}
 

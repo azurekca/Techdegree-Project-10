@@ -10,6 +10,10 @@ export default class CreateCourse extends Component {
     errors: [],
   }
 
+  componentDidMount() {
+    document.title = 'Courses | Create';
+  }
+
   render() {
     const {
       title,
@@ -23,50 +27,17 @@ export default class CreateCourse extends Component {
       <div className="bounds">
         <div className="grid-33 centered">
           <h1>Create Course</h1>
-          <CourseForm 
+          <CourseForm
+            change={this.change}
             cancel={this.cancel}
             errors={errors}
             submit={this.submit}
             submitButtonText="Create"
-            elements={() => (
-              <>
-                <label htmlFor="title">Title</label>
-                <input 
-                  id="title" 
-                  name="title" 
-                  type="text"
-                  value={title} 
-                  onChange={this.change} 
-                  placeholder="Course title"
-                  autoComplete="" />
-                <label htmlFor="description">Description</label>
-                <textarea 
-                  id="description" 
-                  name="description" 
-                  value={description} 
-                  onChange={this.change} 
-                  placeholder="Course description..."
-                  autoComplete="" />
-                <label htmlFor="estimatedTime">Estimated Time</label>
-                <input 
-                  id="estimatedTime" 
-                  name="estimatedTime" 
-                  type="text"
-                  value={estimatedTime} 
-                  onChange={this.change} 
-                  placeholder="Estimated time"
-                  autoComplete="" />
-                <label htmlFor="materialsNeeded">Materials Needed</label>
-                <textarea 
-                  id="materialsNeeded" 
-                  name="materialsNeeded"
-                  value={materialsNeeded} 
-                  onChange={this.change} 
-                  placeholder="Materials needed..."
-                  autoComplete="" />
-              </>
-            )} />
-          
+            title={title}
+            description={description}
+            estimatedTime={estimatedTime}
+            materialsNeeded={materialsNeeded}
+          />
         </div>
       </div>
     );
@@ -100,10 +71,10 @@ export default class CreateCourse extends Component {
     const course = { title, description, estimatedTime, materialsNeeded, userId: user.id };
     context.data.createCourse(user.emailAddress, user.password, course)
       .then(data => {
-        console.log(data)
         if (data.errors) {
           // validation errors
-          this.setState({ errors: data.errors })
+          const valErrors = context.actions.parseValidationErrors(data.errors);
+          this.setState({ errors: valErrors });
         } else {
           // course created successfully, go to newly created course page
           this.props.history.push(data.location)

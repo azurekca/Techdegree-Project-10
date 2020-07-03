@@ -10,6 +10,8 @@ class CourseDetail extends Component {
 	};
 
 	componentDidMount() {
+    // set page title
+    document.title = 'Courses | Detail';
     this.fetchCourse();
 	}
 
@@ -25,7 +27,7 @@ class CourseDetail extends Component {
       this.setState({ loading: false, course });
 
       // set page title
-      document.title = this.state.course.title
+      document.title = `Courses | Detail | ${this.state.course.title}`;
 		} catch (error) {
       console.log(error);
       if (error.message === '404') {
