@@ -37,22 +37,24 @@ class Courses extends Component {
 			return (
 				<>
 					<h1>Courses</h1>
-					{this.state.courses.map(course => {
-							return (
-								<article key={course.id}>
-									<Link to={`/courses/${course.id}`}>
-										<p>Course</p>
-										<h2>{course.title}</h2>
-									</Link>
-								</article>
-							);
-						}
-					)}
-					<button className="course-action">
-						<Link to="/courses/create">
-							New Course
-						</Link>
-					</button>
+					<div className="courses--container">
+						<button className="courses--button">
+							<Link to="/courses/create">
+								New Course
+							</Link>
+						</button>
+						{this.state.courses.map(course => {
+								return (
+									<article key={course.id}>
+										<Link to={`/courses/${course.id}`}>
+											<p>Course</p>
+											<h2>{course.title}</h2>
+										</Link>
+									</article>
+								);
+							}
+						)}
+					</div>
 				</>
 			);
 		}
