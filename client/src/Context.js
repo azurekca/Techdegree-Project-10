@@ -24,6 +24,7 @@ export class Provider extends Component {
       actions: {
         signIn: this.signIn,
         signOut: this.signOut,
+        parseValidationErrors: this.parseValidationErrors
       }
     }
 
@@ -49,6 +50,20 @@ export class Provider extends Component {
   signOut = () => {
     this.setState({ authenticatedUser: null });
     Cookies.remove('authenticatedUser');
+  }
+
+  parseValidationErrors = (errors) => {
+    // split error string
+    const parsedErrors = errors.map(error => {
+      const parts = error.split('_');
+      return {
+        field: parts[0],
+        message: parts[1]
+      }
+    });
+    // assign field name and error message
+    // return parsed errors
+    return parsedErrors;
   }
 }
 
