@@ -15,18 +15,16 @@ module.exports = (sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
-        notEmpty: {
-          msg: 'firstName is required'
-        }
+        notNull: { msg: 'firstName_First Name is required' },
+        notEmpty: { msg: 'firstName_First Name is required' }
       }
     },
     lastName: {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
-        notEmpty: {
-          msg: 'lastName is required'
-        }
+        notNull: { msg: 'lastName_Last Name is required' },
+        notEmpty: { msg: 'lastName_Last Name is required' }
       }
     },
     emailAddress: {
@@ -34,16 +32,14 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique: {
         args: true,
-        msg: 'Email address already in use'
+        msg: 'emailAddress_Email address already in use'
       },
       validate: {
-        notEmpty: {
-          args: true,
-          msg: 'email is required'
-        },
+        notNull: { msg: 'emailAddress_Email is required' },
+        notEmpty: { msg: 'emailAddress_Email is required' },
         isEmail: {
           args: true,
-          msg: 'valid email is required'
+          msg: 'emailAddress_A valid email is required'
         }
       }
     },
@@ -51,9 +47,8 @@ module.exports = (sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
-        notEmpty: {
-          msg: 'password is required'
-        }
+        notNull: { msg: 'password_Password is required' },
+        notEmpty: { msg: 'password_Password is required' }
       }
     }
   }, { sequelize });

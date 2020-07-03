@@ -15,18 +15,16 @@ module.exports = (sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
-        notEmpty: {
-          msg: 'Title is required'
-        }
+        notNull: { msg: 'title_Title is required' },
+        notEmpty: { msg: 'title_Title is required' }
       }
     },
     description: {
       type: Sequelize.TEXT,
       allowNull: false,
       validate: {
-        notEmpty: {
-          msg: 'Description is required'
-        }
+        notNull: { msg: 'description_Description is required' },
+        notEmpty: { msg: 'description_Description is required' }
       }
     },
     estimatedTime: {
