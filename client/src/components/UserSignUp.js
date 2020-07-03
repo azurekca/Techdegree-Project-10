@@ -11,6 +11,10 @@ export default class UserSignUp extends Component {
     errors: [],
   }
 
+  componentDidMount() {
+    document.title = 'Courses | Sign Up';
+  }
+
   render() {
     const {
       firstName,
@@ -35,15 +39,18 @@ export default class UserSignUp extends Component {
                   id="firstName" 
                   name="firstName" 
                   type="text"
-                  value={firstName} 
+                  value={firstName}
+                  aria-required="true"
                   onChange={this.change} 
                   placeholder="First name"
-                  autoComplete="given-name" />
+                  autoComplete="given-name"
+                  autoFocus />
                 <input 
                   id="lastName" 
                   name="lastName" 
                   type="text"
-                  value={lastName} 
+                  value={lastName}
+                  aria-required="true"
                   onChange={this.change} 
                   placeholder="Last name"
                   autoComplete="family-name" />
@@ -51,7 +58,8 @@ export default class UserSignUp extends Component {
                   id="emailAddress" 
                   name="emailAddress" 
                   type="emailAddress"
-                  value={emailAddress} 
+                  value={emailAddress}
+                  aria-required="true"
                   onChange={this.change} 
                   placeholder="Email"
                   autoComplete="username" />
@@ -59,7 +67,8 @@ export default class UserSignUp extends Component {
                   id="password" 
                   name="password"
                   type="password"
-                  value={password} 
+                  value={password}
+                  aria-required="true"
                   onChange={this.change} 
                   placeholder="Password"
                   autoComplete="new-password" />

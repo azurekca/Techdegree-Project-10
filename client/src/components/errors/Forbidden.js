@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Forbidden(props) {
@@ -6,12 +6,15 @@ export default function Forbidden(props) {
   if (props.location.state?.error) {
     message = props.location.state.error
   }
+
+  useEffect(() => {document.title = 'Courses | Forbidden'} );
+    
   return (
     <>
       <h1>Forbidden</h1>
       <p>{message}</p>
       <button>
-        <Link to='/'>Go Back</Link>
+        <Link to='/'>Home</Link>
       </button>
     </>
   );

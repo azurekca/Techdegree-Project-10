@@ -9,6 +9,10 @@ export default class UserSignIn extends Component {
     errors: [],
   }
 
+  componentDidMount() {
+    document.title = 'Courses | Sign In';
+  }
+
   render() {
     const {
       email,
@@ -31,15 +35,18 @@ export default class UserSignIn extends Component {
                   id="email" 
                   name="email" 
                   type="text"
-                  value={email} 
+                  value={email}
+                  aria-required="true"
                   onChange={this.change} 
                   placeholder="Email"
-                  autoComplete="username" />
+                  autoComplete="username"
+                  autoFocus />
                 <input 
                   id="password" 
                   name="password"
                   type="password"
-                  value={password} 
+                  value={password}
+                  aria-required="true"
                   onChange={this.change} 
                   placeholder="Password"
                   autoComplete="current-password" />                
