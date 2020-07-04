@@ -11,11 +11,13 @@ export default function NotFound(props) {
 
   return (
     <>
+      <div className="container-error">
       <h1>Not Found</h1>
-      <p>{message}</p>
-      <button >
+      <h2>{message}</h2>
+      <button>
         <Link to='/'>Home</Link>
       </button>
+    </div>
     </>
   );
 }

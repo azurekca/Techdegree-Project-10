@@ -10,12 +10,12 @@ export default function Forbidden(props) {
   useEffect(() => {document.title = 'Courses | Forbidden'} );
     
   return (
-    <>
+    <div className="container-error">
       <h1>Forbidden</h1>
-      <p>{message}</p>
+      <h2>{message}</h2>
       <button>
         <Link to='/'>Home</Link>
       </button>
-    </>
+    </div>
   );
 }

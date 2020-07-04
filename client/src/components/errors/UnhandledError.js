@@ -10,10 +10,13 @@ export default function UnhandledError() {
 
   return (
     <>
+      <div className="container-error">
       <h1>An Unexpected Error Occurred</h1>
+      <h2>Sometimes these things happen..</h2>
       <button>
         <Link to='/'>Home</Link>
       </button>
+    </div>
     </>
   );
 }
