@@ -41,23 +41,24 @@ class CourseDetail extends Component {
   };
 
   deleteCourse = (id) => {
-    // todo add in alert to confirm deletion
     const { context } = this.props;
     const user = context.authenticatedUser
-
-    context.data.deleteCourse(user.emailAddress, user.password, id)
-      .then(data => {
-        if (data === 'success') {
-          // course deleted successfully, go to back to home page
-          this.props.history.push('/');
-        }
-      })
-      // handle errors and rejected promise: issue with endpoint, api down, network connectivity error
-      .catch( error => {
-        console.log(error);
-        // pushing to history stack will redirect to error page
-        this.props.history.push('/error'); 
-      });
+    const confirmed = window.confirm("Are you sure you want to delete this course? This action is permanent.");
+    if (confirmed) {
+      context.data.deleteCourse(user.emailAddress, user.password, id)
+        .then(data => {
+          if (data === 'success') {
+            // course deleted successfully, go to back to home page
+            this.props.history.push('/');
+          }
+        })
+        // handle errors and rejected promise: issue with endpoint, api down, network connectivity error
+        .catch( error => {
+          console.log(error);
+          // pushing to history stack will redirect to error page
+          this.props.history.push('/error'); 
+        });
+    }
   }
 
 	render() {

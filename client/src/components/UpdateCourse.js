@@ -73,22 +73,20 @@ export default class UpdateCourse extends Component {
       } = this.state;
 
       return (
-        <div className="bounds">
-          <div className="grid-33 centered">
-            <h1>Update Course</h1>
-            <CourseForm
-              change={this.change}
-              cancel={this.cancel}
-              errors={this.state.errors}
-              submit={this.submit}
-              submitButtonText="Update"
-              title={title}
-              description={description}
-              estimatedTime={estimatedTime}
-              materialsNeeded={materialsNeeded}
-            />
-          </div>
-        </div>
+        <>
+          <h1>Update Course</h1>
+          <CourseForm
+            change={this.change}
+            cancel={this.cancel}
+            errors={this.state.errors}
+            submit={this.submit}
+            submitButtonText="Update"
+            title={title}
+            description={description}
+            estimatedTime={estimatedTime}
+            materialsNeeded={materialsNeeded}
+          />
+        </>
       );
     }     
   }
