@@ -28,59 +28,66 @@ export default (props) => {
   }
 
   return (
-    <div>
+    <>
       <ErrorsDisplay
         errors={errors}
         titleRef={titleRef}
         descriptionRef={descriptionRef}
       />
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Title</label>
-        
-        <input 
-          id="title" 
-          name="title" 
-          ref={titleRef}
-          type="text"
-          value={title}
-          aria-required="true"
-          aria-describedby="title_error"
-          onChange={event => change(event)} 
-          placeholder="Course title"
-          autoFocus />
-        <label htmlFor="description">Description</label>
-        <ToolTip message="Description text area accepts simple markdown" />
-        <textarea 
-          id="description" 
-          name="description" 
-          ref={descriptionRef}
-          value={description}
-          aria-required="true"
-          aria-describedby="description_error"
-          onChange={event => change(event)} 
-          placeholder="Course description..." />
-        <label htmlFor="estimatedTime">Estimated Time</label>
-        <input 
-          id="estimatedTime" 
-          name="estimatedTime" 
-          type="text"
-          value={estimatedTime} 
-          onChange={event => change(event)} 
-          placeholder="Estimated time" />
-        <label htmlFor="materialsNeeded">Materials Needed</label>
-        <ToolTip message="Text area accepts simple markdown" />
-        <textarea 
-          id="materialsNeeded" 
-          name="materialsNeeded"
-          value={materialsNeeded} 
-          onChange={event => change(event)} 
-          placeholder="Materials needed..." />
-        <div className="pad-bottom">
-          <button className="button" type="submit">{submitButtonText}</button>
-          <button className="button button-secondary" onClick={handleCancel}>Cancel</button>
+      <form className="container-grid-course" onSubmit={handleSubmit}>
+        <div className="course-title container-form-course">
+          <label htmlFor="title">Title</label>
+          <input 
+            id="title" 
+            name="title" 
+            ref={titleRef}
+            type="text"
+            value={title}
+            aria-required="true"
+            aria-describedby="title_error"
+            onChange={event => change(event)} 
+            placeholder="Course title"
+            autoFocus />
+        </div>
+        <div className="course-description container-form-course">
+          <label htmlFor="description">Description</label>
+          <ToolTip message="Description text area accepts simple markdown" />
+          <textarea 
+            id="description" 
+            name="description" 
+            ref={descriptionRef}
+            value={description}
+            aria-required="true"
+            aria-describedby="description_error"
+            onChange={event => change(event)} 
+            placeholder="Course description..." />
+        </div>
+        <div className="course-time container-form-course">
+          <label htmlFor="estimatedTime">Estimated Time</label>
+          <input 
+            id="estimatedTime" 
+            name="estimatedTime" 
+            type="text"
+            value={estimatedTime} 
+            onChange={event => change(event)} 
+            placeholder="Estimated time" />
+        </div>
+        <div className="course-materials container-form-course">
+          <label htmlFor="materialsNeeded">Materials Needed</label>
+          <ToolTip message="Text area accepts simple markdown" />
+          <textarea 
+            id="materialsNeeded" 
+            name="materialsNeeded"
+            value={materialsNeeded} 
+            onChange={event => change(event)} 
+            placeholder="Materials needed..." />
+        </div>
+        <div className="container-buttons">
+          <button type="submit">{submitButtonText}</button>
+          <button className="button-nav" onClick={handleCancel}>Cancel</button>
         </div>
       </form>
-    </div>
+    </>
   );
 }
 

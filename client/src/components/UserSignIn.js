@@ -21,41 +21,43 @@ export default class UserSignIn extends Component {
     } = this.state;
 
     return (
-      <div className="bounds">
-        <div className="grid-33 centered signin">
-          <h1>Sign In</h1>
-          <UserForm 
-            cancel={this.cancel}
-            errors={errors}
-            submit={this.submit}
-            submitButtonText="Sign In"
-            elements={() => (
-              <>
-                <input 
-                  id="email" 
-                  name="email" 
-                  type="text"
-                  value={email}
-                  aria-required="true"
-                  onChange={this.change} 
-                  placeholder="Email"
-                  autoComplete="username"
-                  autoFocus />
-                <input 
-                  id="password" 
-                  name="password"
-                  type="password"
-                  value={password}
-                  aria-required="true"
-                  onChange={this.change} 
-                  placeholder="Password"
-                  autoComplete="current-password" />                
-              </>
-            )} />
-          <p>
-            Don't have a user account? <Link to="/signup">Click here</Link> to sign up!
-          </p>
-        </div>
+      <div className="center-content">
+      <div className="container-form-user">
+        <h1>Sign In</h1>
+        <UserForm 
+          cancel={this.cancel}
+          errors={errors}
+          submit={this.submit}
+          submitButtonText="Sign In"
+          elements={() => (
+            <>
+              <label htmlFor="email">Email / Username</label>
+              <input 
+                id="email" 
+                name="email" 
+                type="text"
+                value={email}
+                aria-required="true"
+                onChange={this.change} 
+                placeholder="Email"
+                autoComplete="username"
+                autoFocus />
+              <label htmlFor="password">Password</label>
+              <input 
+                id="password" 
+                name="password"
+                type="password"
+                value={password}
+                aria-required="true"
+                onChange={this.change} 
+                placeholder="Password"
+                autoComplete="current-password" />                
+            </>
+          )} />
+        <p>
+          Don't have a user account? <Link to="/signup">Click here</Link> to sign up!
+        </p>
+      </div>
       </div>
     );
   }

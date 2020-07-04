@@ -24,22 +24,20 @@ export default class CreateCourse extends Component {
     } = this.state;
 
     return (
-      <div className="bounds">
-        <div className="grid-33 centered">
-          <h1>Create Course</h1>
-          <CourseForm
-            change={this.change}
-            cancel={this.cancel}
-            errors={errors}
-            submit={this.submit}
-            submitButtonText="Create"
-            title={title}
-            description={description}
-            estimatedTime={estimatedTime}
-            materialsNeeded={materialsNeeded}
-          />
-        </div>
-      </div>
+      <>
+        <h1>Create Course</h1>
+        <CourseForm
+          change={this.change}
+          cancel={this.cancel}
+          errors={errors}
+          submit={this.submit}
+          submitButtonText="Create"
+          title={title}
+          description={description}
+          estimatedTime={estimatedTime}
+          materialsNeeded={materialsNeeded}
+        />
+      </>
     );
   }
 

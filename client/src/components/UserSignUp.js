@@ -25,8 +25,8 @@ export default class UserSignUp extends Component {
     } = this.state;
 
     return (
-      <div className="bounds">
-        <div className="grid-33 centered signin">
+      <div className="center-content">
+        <div className="container-form-user">
           <h1>Sign Up</h1>
           <UserForm 
             cancel={this.cancel}
@@ -34,7 +34,8 @@ export default class UserSignUp extends Component {
             submit={this.submit}
             submitButtonText="Sign Up"
             elements={() => (
-              <React.Fragment>
+              <>
+                <label htmlFor="firstName">First Name</label>
                 <input 
                   id="firstName" 
                   name="firstName" 
@@ -45,6 +46,7 @@ export default class UserSignUp extends Component {
                   placeholder="First name"
                   autoComplete="given-name"
                   autoFocus />
+                <label htmlFor="lastName">Last Name</label>
                 <input 
                   id="lastName" 
                   name="lastName" 
@@ -54,6 +56,7 @@ export default class UserSignUp extends Component {
                   onChange={this.change} 
                   placeholder="Last name"
                   autoComplete="family-name" />
+                <label htmlFor="emailAddress">Email Address</label>
                 <input 
                   id="emailAddress" 
                   name="emailAddress" 
@@ -63,6 +66,7 @@ export default class UserSignUp extends Component {
                   onChange={this.change} 
                   placeholder="Email"
                   autoComplete="username" />
+                <label htmlFor="password">Password</label>
                 <input 
                   id="password" 
                   name="password"
@@ -72,7 +76,7 @@ export default class UserSignUp extends Component {
                   onChange={this.change} 
                   placeholder="Password"
                   autoComplete="new-password" />
-              </React.Fragment>
+              </>
             )} />
           <p>
             Already have a user account? <Link to="/signin">Click here</Link> to sign in!

@@ -13,7 +13,7 @@ function Tooltip({message}) {
 
   function showTip() {
     setTip(message);
-    setSpanTipClass('tooltip--bubble');
+    setSpanTipClass('tooltip-bubble');
   }
 
   function hideTip() {
@@ -22,7 +22,7 @@ function Tooltip({message}) {
   }
 
   return (
-    <span className="tooltip--container">
+    <span className="container-tooltip">
       <button type="button" aria-label="more info" onClick={showTip} onBlur={hideTip} onKeyDown={hideTip}>i</button>
       <span role="status" className={spanTipClass}>{tip}</span>
     </span>
