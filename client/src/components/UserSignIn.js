@@ -4,10 +4,13 @@ import UserForm from './UserForm';
 
 export default class UserSignIn extends Component {
   state = {
-    email: '',
-    password: '',
+    // email: '',
+    // password: '',
     errors: [],
   }
+
+  emailRef = React.createRef();
+  passwordRef = React.createRef();
 
   componentDidMount() {
     document.title = 'Courses | Sign In';
@@ -15,8 +18,8 @@ export default class UserSignIn extends Component {
 
   render() {
     const {
-      email,
-      password,
+      // email,
+      // password,
       errors,
     } = this.state;
 
@@ -36,9 +39,9 @@ export default class UserSignIn extends Component {
                 id="email" 
                 name="email" 
                 type="text"
-                value={email}
+                ref={ref.email}
                 aria-required="true"
-                onChange={this.change} 
+                // onChange={this.change} 
                 placeholder="Email"
                 autoComplete="username"
                 autoFocus />
@@ -47,9 +50,9 @@ export default class UserSignIn extends Component {
                 id="password" 
                 name="password"
                 type="password"
-                value={password}
+                ref={ref.password}
                 aria-required="true"
-                onChange={this.change} 
+                // onChange={this.change} 
                 placeholder="Password"
                 autoComplete="current-password" />                
             </>
@@ -62,16 +65,16 @@ export default class UserSignIn extends Component {
     );
   }
 
-  change = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
+  // change = (event) => {
+  //   const name = event.target.name;
+  //   const value = event.target.value;
 
-    this.setState(() => {
-      return {
-        [name]: value
-      };
-    });
-  }
+  //   this.setState(() => {
+  //     return {
+  //       [name]: value
+  //     };
+  //   });
+  // }
 
   submit = () => {
     // this gives us access to the Data methods for talking to the api set up in Data.js and the actions defined in Context.js
@@ -80,7 +83,9 @@ export default class UserSignIn extends Component {
     const { from } = this.props.location.state || { from: { pathname: '/' } };
 
     // credentials for user that is signing in
-    const { email, password } = this.state;
+    // const { email, password } = this.state;
+    const email = this.emailRef.current.value;
+    const password = this.passwordRef.current.value;
 
     context.actions.signIn(email, password)
       .then(user => {

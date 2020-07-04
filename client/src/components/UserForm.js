@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
-export default (props) => {
+const UserForm = React.forwardRef((props, ref) => {
   const {
     cancel,
     errors,
@@ -8,6 +8,19 @@ export default (props) => {
     submitButtonText,
     elements,
   } = props;
+
+  // refs to mark locations on page to scroll to
+  const validationRef = useRef(null);
+
+  useEffect(() => {
+    // scroll to validation errors
+    if (validationRef.current) {
+      console.log(validationRef)
+      validationRef.current.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+  })
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -21,7 +34,12 @@ export default (props) => {
 
   return (
     <>
-      <ErrorsDisplay errors={errors} />
+      <ErrorsDisplay
+        errors={errors}
+        validationRef={validationRef}
+        // emailRef={emailRef}
+        // passwordRef={passwordRef}
+      />
       <form onSubmit={handleSubmit}>
         {elements()}
         <div className="container-buttons">
@@ -31,25 +49,42 @@ export default (props) => {
       </form>
     </>
   );
-}
+});
 
-// TODO make this accessible
-// TODO change styling and html elements
-function ErrorsDisplay({ errors }) {
+/* Displays validation errors returned from API */
+function ErrorsDisplay(props) {
   let errorsDisplay = null;
+  const { errors } = props;
 
   if (errors.length) {
     errorsDisplay = (
-      <div>
-        <h2 className="validation--errors--label">Validation errors</h2>
-        <div className="validation-errors">
-          <ul>
-            {errors.map((error, i) => <li key={i}>{error}</li>)}
-          </ul>
-        </div>
+      <div className="container-error" role="alert">
+        <h2 ref={props.validationRef}>Validation errors</h2>
+        <ul>
+          {errors.map((error, i) => (
+            <li key={i}>
+              <button 
+                id={`${error.field}_error`}
+                className="error-link"
+                onClick={() => {
+                  const domRef = props[`${error.field}Ref`]
+                  domRef.current.focus(); // will place focus on field with error
+                  domRef.current.scrollIntoView({
+                    behavior: 'smooth',
+                    inline: 'end'
+                  }); // scrolls page smoothly to field with error
+                }}>
+                {error.message}
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
     );
   }
 
   return errorsDisplay;
 }
+
+
+export default UserForm;
