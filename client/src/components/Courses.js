@@ -37,11 +37,9 @@ class Courses extends Component {
 			return (
 				<>
 					<h1>Courses</h1>
-					<div className="courses--container">
-						<button className="courses--button">
-							<Link to="/courses/create">
-								New Course
-							</Link>
+					<div className="container-grid-cards">
+						<button className="button-card" onClick={() => this.props.history.push("/courses/create")}>
+							New Course
 						</button>
 						{this.state.courses.map(course => {
 								return (

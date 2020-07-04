@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 const ReactMarkdown = require('react-markdown');
 
@@ -42,7 +41,7 @@ class CourseDetail extends Component {
   };
 
   deleteCourse = (id) => {
-    // this gets the signed in user and the data methods
+    // todo add in alert to confirm deletion
     const { context } = this.props;
     const user = context.authenticatedUser
 
@@ -73,11 +72,18 @@ class CourseDetail extends Component {
       // check if logged in user owns this course
       if (course.userId === this.props.context.authenticatedUser?.id) {
         courseEditButtons = (
-          <div>
-            <button  className="course-action">
-              <Link to={`/courses/${course.id}/update`}>Update Course</Link>
+          <div className="container-buttons">
+            <button onClick={() => this.props.history.push(`/courses/${course.id}/update`)}>
+              Update Course
             </button>
-            <button className="course-action" onClick={() => this.deleteCourse(course.id)}>Delete Course</button>
+            <button className="button-bad-action" onClick={() => this.deleteCourse(course.id)}>Delete Course</button>
+            <button className="button-nav" onClick={() => this.props.history.push('/')}>Return to List</button>
+          </div>
+        );
+      } else {
+        courseEditButtons = (
+          <div className="container-buttons">
+            <button className="button-nav" onClick={() => this.props.history.push('/')}>Return to List</button>
           </div>
         );
       }
@@ -85,12 +91,25 @@ class CourseDetail extends Component {
       return (
         <>
           {courseEditButtons}
-          <h2>Course</h2>
-          <h1>{course.title}</h1>
-          <p>by {user.firstName} {user.lastName}</p>
-          <p>Estimated time: {course.estimatedTime}</p>
-          <ReactMarkdown source={course.description} />
-          <ReactMarkdown source={course.materialsNeeded} />
+          <div className="container-grid-course">
+            <div className="course-title">
+              <h2>Course</h2>
+              <h1>{course.title}</h1>
+              <h3>by {user.firstName} {user.lastName}</h3>
+            </div>
+            <div className="course-description">
+              <h2>Description</h2>
+              <ReactMarkdown source={course.description} />
+            </div>
+            <div className="course-time">
+              <h2>Estimated Time</h2>
+              <p>{course.estimatedTime}</p>
+            </div>
+            <div className="course-materials">
+              <h2>Materials Needed</h2>
+              <ReactMarkdown source={course.materialsNeeded} />
+            </div>
+          </div>
         </>
       );
     }
