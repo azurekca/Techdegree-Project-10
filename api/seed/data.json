@@ -32,6 +32,13 @@
       "userId": 2,
       "title": "Learn How to Test Programs",
       "description": "In this course, you'll learn how to test programs."
+    },
+    {
+      "userId": 1,
+      "title": "How to Cook a Ham",
+      "description": "Bring some class to your dinner table and avoid the horror of sub-par ham.\n\nFor this recipe, and for most holiday occasions, we prefer an un-sliced bone-in half ham, preferably from the shank end. A half a ham will comfortably feed at least a dozen people, and cooking it un-sliced means that it’s less likely to dry out. (Though see our tips below if you prefer to buy a spiral-cut ham.) Bone-in hams are more flavorful, and you can use the ham bone to make soup.\n\nHalf hams are also either cut from the shank end or from the butt end. The butt end may have more meat, but because of the shape of the bone at that end, is more difficult to cut. The hams pictured here are both from the shank end.\n\nMost hams you buy at the grocery store are already fully cooked. If your ham is a partially cooked ham or an uncooked ham, it will say so on the package. Follow the cooking directions on the package to cook. The directions in this recipe are for a regular, fully-cooked ham.",
+      "estimatedTime": "2 hours",
+      "materialsNeeded": "* Grace\n* Civility\n* Apron"
     }
   ]
 }
