@@ -141,6 +141,6 @@ export default class UpdateCourse extends Component {
   }
 
   cancel = () => {
-    this.props.history.goBack();
+    this.props.history.push(`/courses/${this.state.id}`);
   }
 }
