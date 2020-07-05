@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import UserForm from './UserForm';
+import ErrorsDisplay from './helpers/ErrorsDisplay';
 
 export default class UserSignUp extends Component {
   state = {
@@ -11,8 +11,25 @@ export default class UserSignUp extends Component {
     errors: [],
   }
 
+  // refs to mark locations on page to scroll to
+  validationRef = React.createRef();
+  firstNameRef = React.createRef();
+  lastNameRef = React.createRef();
+  emailAddressRef = React.createRef();
+  passwordRef = React.createRef();
+
   componentDidMount() {
     document.title = 'Courses | Sign Up';
+    // scroll to validation errors
+  }
+
+  componentDidUpdate() {
+    if (this.validationRef.current) {
+      console.log(this.validationRef)
+      this.validationRef.current.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
   }
 
   render() {
@@ -28,56 +45,65 @@ export default class UserSignUp extends Component {
       <div className="center-content">
         <div className="container-form-user">
           <h1>Sign Up</h1>
-          <UserForm 
-            cancel={this.cancel}
+          <ErrorsDisplay 
             errors={errors}
-            submit={this.submit}
-            submitButtonText="Sign Up"
-            elements={() => (
-              <>
-                <label htmlFor="firstName">First Name</label>
-                <input 
-                  id="firstName" 
-                  name="firstName" 
-                  type="text"
-                  value={firstName}
-                  aria-required="true"
-                  onChange={this.change} 
-                  placeholder="First name"
-                  autoComplete="given-name"
-                  autoFocus />
-                <label htmlFor="lastName">Last Name</label>
-                <input 
-                  id="lastName" 
-                  name="lastName" 
-                  type="text"
-                  value={lastName}
-                  aria-required="true"
-                  onChange={this.change} 
-                  placeholder="Last name"
-                  autoComplete="family-name" />
-                <label htmlFor="emailAddress">Email Address</label>
-                <input 
-                  id="emailAddress" 
-                  name="emailAddress" 
-                  type="emailAddress"
-                  value={emailAddress}
-                  aria-required="true"
-                  onChange={this.change} 
-                  placeholder="Email"
-                  autoComplete="username" />
-                <label htmlFor="password">Password</label>
-                <input 
-                  id="password" 
-                  name="password"
-                  type="password"
-                  value={password}
-                  aria-required="true"
-                  onChange={this.change} 
-                  placeholder="Password"
-                  autoComplete="new-password" />
-              </>
-            )} />
+            validationRef={this.validationRef}
+            firstNameRef={this.firstNameRef}
+            lastNameRef={this.lastNameRef}
+            emailAddressRef={this.emailAddressRef}
+            passwordRef={this.passwordRef}
+          />
+          <form onSubmit={this.submit}>
+            <label htmlFor="firstName">First Name</label>
+            <input 
+              id="firstName" 
+              name="firstName" 
+              type="text"
+              value={firstName}
+              ref={this.firstNameRef}
+              aria-required="true"
+              onChange={this.change} 
+              placeholder="First name"
+              autoComplete="given-name"
+              autoFocus />
+            <label htmlFor="lastName">Last Name</label>
+            <input 
+              id="lastName" 
+              name="lastName" 
+              type="text"
+              value={lastName}
+              ref={this.lastNameRef}
+              aria-required="true"
+              onChange={this.change} 
+              placeholder="Last name"
+              autoComplete="family-name" />
+            <label htmlFor="emailAddress">Email Address</label>
+            <input 
+              id="emailAddress" 
+              name="emailAddress" 
+              type="emailAddress"
+              value={emailAddress}
+              ref={this.emailAddressRef}
+              aria-required="true"
+              onChange={this.change} 
+              placeholder="Email"
+              autoComplete="username" />
+            <label htmlFor="password">Password</label>
+            <input 
+              id="password" 
+              name="password"
+              type="password"
+              value={password}
+              ref={this.passwordRef}
+              aria-required="true"
+              onChange={this.change} 
+              placeholder="Password"
+              autoComplete="new-password" />
+            <div className="container-buttons">
+              <button type="submit">Sign Up</button>
+              <button className="button-nav" onClick={this.cancel}>Cancel</button>
+          </div>
+        </form>
           <p>
             Already have a user account? <Link to="/signin">Click here</Link> to sign in!
           </p>
@@ -97,7 +123,8 @@ export default class UserSignUp extends Component {
     });
   }
 
-  submit = () => {
+  submit = (event) => {
+    event.preventDefault();
     // this gives us access to the Data methods for talking to the api
     const { context } = this.props;
 
@@ -116,7 +143,8 @@ export default class UserSignUp extends Component {
       .then(data => {
         if (data.errors) {
           // validation errors
-          this.setState({ errors: data.errors })
+          const valErrors = context.actions.parseValidationErrors(data.errors);
+          this.setState({ errors: valErrors });
         } else {
           context.actions.signIn(emailAddress, password)
             .then(() => this.props.history.push('/'));
@@ -131,7 +159,8 @@ export default class UserSignUp extends Component {
 
   }
 
-  cancel = () => {
+  cancel = (event) => {
+    event.preventDefault();
     this.props.history.push('/');
   }
 }

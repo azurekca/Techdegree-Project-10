@@ -67,6 +67,7 @@ export default class CreateCourse extends Component {
 
     // create a new course with current user id
     const course = { title, description, estimatedTime, materialsNeeded, userId: user.id };
+    
     context.data.createCourse(user.emailAddress, user.password, course)
       .then(data => {
         if (data.errors) {
