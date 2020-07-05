@@ -73,6 +73,10 @@ a {
   color: inherit;
 }
 
+form {
+  padding-top: 1.3rem;
+}
+
 li:first-of-type {
   margin-top: 1rem;
 }
@@ -128,7 +132,6 @@ span {
   padding-right: 0.5rem;
 }
 nav p {
-  padding-bottom: 0.75rem;
   margin-bottom: 0.15rem;
   border-bottom: 0.2rem solid var(--colour-yellow);
 }
@@ -159,7 +162,7 @@ nav a:focus {
   display: grid;
   justify-content: center;
   align-content: center;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.75rem;
   padding: 1rem;
 }
@@ -168,16 +171,23 @@ nav a:focus {
   border-radius: 15px;
   min-height: 140px;
   margin: 0;
+  border: 0;
 }
 /* article is a card */
 article {
   /* card like style */
   min-height: 140px;
-  border: 3px solid var(--colour-yellow);
+  border: 0.25rem solid var(--colour-yellow);
   border-radius: 15px;
   /* use flex to make link clickable area take up */
   display: flex;
   align-items: stretch;
+}
+
+article:hover, article:focus-within {
+  outline: none;
+  border: 0.25rem solid var(--colour-deep-pink);
+  border-radius: 0;
 }
 
 article a {
@@ -280,7 +290,8 @@ article a {
 
 /* Validation Errors*/
 /*#region*/
-.container-error h2 {
+.container-error h2,
+.container-error p {
   color: var(--colour-red-orange);
 }
 .container-error li {
@@ -289,9 +300,9 @@ article a {
 .error-link {
   color: var(--colour-red-orange);
   background-color: var(--colour-white);
-  border-bottom: 0.25rem solid var(--colour-red-orange);
+  border-bottom: 0.25rem solid var(--colour-light-yellow);
   border-radius: 0;
-  padding: 0;
+  padding: 0 0.2rem;
   margin-top: 0.25rem;
   margin-left: 2rem;
   font-size: 1.2rem;
@@ -301,11 +312,11 @@ article a {
 .error-link:focus {
   background-color: var(--colour-white);
   color: var(--colour-purple);
-  border-bottom: 0.25rem solid var(--colour-light-yellow);
+  border-bottom: 0.25rem solid var(--colour-yellow);
 }
-.error-link:focus {
+/* .error-link:focus {
   border-bottom: 0.25rem solid var(--colour-light-yellow);
-}
+} */
 /*#endregion*/
 
 /* Course Form Grid-Areas contents */
