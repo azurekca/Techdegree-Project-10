@@ -12,7 +12,7 @@ import React from 'react';
 export default function ErrorsDisplay(props) {
   let errorsDisplay = null;
   const { errors } = props;
-  console.log(errors)
+  
   if (errors.length) {
     errorsDisplay = (
       <div className="container-error" role="alert">

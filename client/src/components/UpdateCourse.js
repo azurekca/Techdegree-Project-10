@@ -121,7 +121,6 @@ export default class UpdateCourse extends Component {
 
     context.data.updateCourse(user.emailAddress, user.password, course)
       .then(data => {
-        console.log(data.errors)
         if (data.errors) {
           // validation errors
           const valErrors = context.actions.parseValidationErrors(data.errors);

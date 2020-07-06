@@ -23,7 +23,6 @@ export default (props) => {
   useEffect(() => {
     // scroll to validation errors
     if (validationRef.current) {
-      console.log(validationRef)
       validationRef.current.scrollIntoView({
         behavior: 'smooth'
       });
