@@ -17,6 +17,7 @@ export default class UserSignUp extends Component {
   lastNameRef = React.createRef();
   emailAddressRef = React.createRef();
   passwordRef = React.createRef();
+  confirmPasswordRef = React.createRef();
 
   componentDidMount() {
     document.title = 'Courses | Sign Up';
@@ -25,10 +26,21 @@ export default class UserSignUp extends Component {
 
   componentDidUpdate() {
     if (this.validationRef.current) {
-      console.log(this.validationRef)
       this.validationRef.current.scrollIntoView({
         behavior: 'smooth'
       });
+    }
+  }
+
+  checkIfPasswordsMatch() {
+    if (this.state.password === this.confirmPasswordRef.current.value) {
+      // clear errors from state.errors
+      this.setState({ errors: [] })
+      return true;
+    } else {
+      // show validation error by adding to this.state.errors
+      this.setState({ errors: [{ field: 'password', message: 'Passwords don\'t match'}]})
+      return false;
     }
   }
 
@@ -99,6 +111,17 @@ export default class UserSignUp extends Component {
               onChange={this.change} 
               placeholder="Password"
               autoComplete="new-password" />
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input 
+              id="confirmPassword" 
+              // name="password"
+              // type="password"
+              // value={password}
+              ref={this.confirmPasswordRef}
+              aria-required="true"
+              // onChange={this.change} 
+              placeholder="Confirm Password"
+              autoComplete="new-password" />
             <div className="container-buttons">
               <button type="submit">Sign Up</button>
               <button className="button-nav" onClick={this.cancel}>Cancel</button>
@@ -139,24 +162,27 @@ export default class UserSignUp extends Component {
     // create a new user object based on the properties we got from state
     const user = { firstName, lastName, emailAddress, password };
 
-    context.data.createUser(user)
-      .then(data => {
-        if (data.errors) {
-          // validation errors
-          const valErrors = context.actions.parseValidationErrors(data.errors);
-          this.setState({ errors: valErrors });
-        } else {
-          context.actions.signIn(emailAddress, password)
-            .then(() => this.props.history.push('/'));
-        }
-      })
-      // handle errors and rejected promise: issue with endpoint, api down, network connectivity error
-      .catch( error => {
-        console.log(error);
-        // pushing to history stack will redirect to error page
-        this.props.history.push('/error'); 
-      });
+    if (this.checkIfPasswordsMatch()) {
+      context.data.createUser(user)
+        .then(data => {
+          if (data.errors) {
+            // validation errors
+            const valErrors = context.actions.parseValidationErrors(data.errors);
+            this.setState({ errors: valErrors });
+          } else {
+            context.actions.signIn(emailAddress, password)
+              .then(() => this.props.history.push('/'));
+          }
+        })
+        // handle errors and rejected promise: issue with endpoint, api down, network connectivity error
+        .catch( error => {
+          console.log(error);
+          // pushing to history stack will redirect to error page
+          this.props.history.push('/error'); 
+        });
+    } else {
 
+    }
   }
 
   cancel = (event) => {
