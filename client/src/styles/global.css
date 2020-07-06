@@ -364,11 +364,10 @@ article a {
 .tooltip-bubble {
   background-color: var(--colour-light-yellow);
   padding: 0.35rem 0.25rem 0.15rem;
-  overflow-x: visible;
   white-space: nowrap;
   position: absolute;
-  bottom: -0.5rem;
-  left: 2.8rem;
+  bottom: 1.8rem;
+  left: -6.2rem;
 }
 /*#endregion*/
 input:focus,
@@ -409,6 +408,10 @@ textarea:focus {
   }
   button.error-link {
     border-radius: 0;
+  }
+  .tooltip-bubble {
+    bottom: -0.5rem;
+    left: 2.8rem;
   }
 }
 
