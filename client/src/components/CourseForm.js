@@ -65,7 +65,7 @@ export default (props) => {
         </div>
         <div className="course-description container-form-course">
           <label htmlFor="description">Description</label>
-          <ToolTip message="Description text area accepts simple markdown" />
+          <ToolTip message="Text area accepts simple markdown" />
           <textarea 
             id="description" 
             name="description" 
