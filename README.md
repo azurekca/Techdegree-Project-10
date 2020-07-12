@@ -1,5 +1,4 @@
-# Techdegree-Project-10
- Full Stack App with React and a REST API
+# Full Stack App with React and a REST API
 
  * This is an app to manage a hypothetical school's course data. All users can view courses and create a user profile to create courses, update their courses and delete courses. User login is persisted with cookies and authentication protects private routes.
 
